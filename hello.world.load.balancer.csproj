@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>bfa2ace9-115d-490b-92b9-378f076cc133</UserSecretsId>
   </PropertyGroup>
-
+<ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+</ItemGroup>
 </Project>

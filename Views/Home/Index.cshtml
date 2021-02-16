@@ -2,10 +2,86 @@
     ViewData["Title"] = "Home Page";
 }
 
+
+
+<script>
+    function insert() {
+        $.ajax({
+            url: '@Url.Action("Insert", "Home")',
+            data: {
+                server_who_loaded_page: $("#server_who_loaded_page").val(),
+                client: $("#client").val(),
+                color: $("#color").val(),
+            },
+            type: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            dataType: 'json',
+            success: function (json) {
+                console.log(JSON.stringify(json));
+                let lastSavedRow = json[0];
+                let responseHtmlSection = `<h3>Response</h3>
+                <label><b>Server who loaded the page</b></label>
+                <br />
+                <label>${lastSavedRow.server_who_loaded_page}</label>
+                <br />
+                <label><b>Server who saved submission</b></label>
+                <br />
+                <label>${lastSavedRow.server_who_saved_submission}</label>
+                <br />
+                <label><b>Datetime</b></label>
+                <br />
+                <label>${lastSavedRow.datetime}</label>
+                <br />
+                <label><b>Client</b></label>
+                <br />
+                <label>${lastSavedRow.client}</label>
+                <br />
+                <label><b>Color</b></label>
+                <br />
+                <label>${lastSavedRow.color}</label>`;
+                $("#responseDiv")[0].innerHTML = responseHtmlSection;
+            },
+            error: function (xhr, status, errorThrown) {
+                alert('An error has ocurred');
+                console.error(xhr);
+                console.error(status);
+                console.error(errorThrown);
+            }
+        });
+    }
+</script>
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 
-    <br /><br /><br />
-    <h4>Response from: @ViewBag.ServerName</h4>
+    <br />
+    
+    <div class="container" style="text-align: left;">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Form</h3>
+                <label for="server_who_loaded_page">Server who loaded the page:</label>
+                <input type="text" name="server_who_loaded_page" id="server_who_loaded_page" value="@ViewBag.server_who_loaded_page" readonly />
+                <br />
+                <label for="color">Color:</label>
+                <select name="color" id="color">
+                    <option value="green" style="color:white;background-color:green;">Green</option>
+                    <option value="blue" style="color:white;background-color:blue;">Blue</option>
+                    <option value="red" style="color:white;background-color:red;">Red</option>
+                    <option value="yellow" style="color:white;background-color:yellow;">Yellow</option>
+                </select>
+                <br />
+                <label for="client">Client:</label>
+                <input type="text" name="client" id="client" value="@ViewBag.client" readonly />
+                <br />
+                <input type="submit" name="submit-btn" value="Submit" onclick="insert()" />
+            </div>
+            <div class="col-md-6" style="border-left: solid 1px #c9c9c9;" id="responseDiv">
+                <h3>Response</h3>
+            </div>
+        </div>
+    </div>
+
 </div>

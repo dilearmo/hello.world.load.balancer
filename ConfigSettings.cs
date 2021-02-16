@@ -8,5 +8,6 @@ namespace hello.world.load.balancer
     public class ConfigSettings
     {
         public string ServerName { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

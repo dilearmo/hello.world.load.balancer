@@ -25,9 +25,19 @@ namespace hello.world.load.balancer.Controllers
 
         public IActionResult Index()
         {
-            HttpContext.Response.Headers.Add("ServerName", _configSettings.Value.ServerName);
-            ViewBag.ServerName = _configSettings.Value.ServerName;
+            ViewBag.server_who_loaded_page = _configSettings.Value.ServerName;
+            ViewBag.client = System.Environment.MachineName;
             return View();
+        }
+
+        [HttpPost("insert")]
+        public IActionResult Insert([FromForm]Data data) {
+            var server_who_saved_submission = _configSettings.Value.ServerName;
+            SqlOperations.Insert(data.server_who_loaded_page, server_who_saved_submission, data.color, data.client, _configSettings.Value.ConnectionString);
+
+            var result = SqlOperations.Read(data.client, _configSettings.Value.ConnectionString);
+
+            return Ok(result);
         }
 
         public IActionResult Privacy()
